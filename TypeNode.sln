@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{07C2787E-EAC7-C090-1BA3-A61EC2A24D84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "renode-extract", "renode-extract", "{0FBCB19F-6D51-F843-ED6F-E11AC537B7AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenodeExtract", "tools\renode-extract\RenodeExtract.csproj", "{4A3ADB55-31E2-3E24-51A4-A79E92AED2FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A3ADB55-31E2-3E24-51A4-A79E92AED2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A3ADB55-31E2-3E24-51A4-A79E92AED2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A3ADB55-31E2-3E24-51A4-A79E92AED2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A3ADB55-31E2-3E24-51A4-A79E92AED2FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0FBCB19F-6D51-F843-ED6F-E11AC537B7AD} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
+		{4A3ADB55-31E2-3E24-51A4-A79E92AED2FE} = {0FBCB19F-6D51-F843-ED6F-E11AC537B7AD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2855949-C283-4539-972B-7522425E19E1}
+	EndGlobalSection
+EndGlobal

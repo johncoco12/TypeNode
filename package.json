@@ -1,0 +1,26 @@
+{
+  "name": "typenode",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "cli": "tsx packages/cli/src/index.ts",
+    "example:generate": "tsx packages/cli/src/index.ts generate examples/stm32f4-hello/machine.ts",
+    "example:run": "tsx packages/cli/src/index.ts run examples/stm32f4-hello/machine.ts --headless",
+    "codegen:peripherals": "tsx tools/codegen-peripherals.ts",
+    "docs:peripherals": "tsx tools/gen-peripheral-docs.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
