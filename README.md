@@ -182,7 +182,7 @@ vendor/peripherals/
 
 ---
 
-## Gotchas
+## Known Issues
 
 **Snap-packaged VSCode** injects `LD_LIBRARY_PATH` entries that break dotnet's ELF loader with a cryptic `GLIBC_PRIVATE` error. TypeNode scrubs `LD_LIBRARY_PATH`, `LD_PRELOAD`, and `SNAP_*` before spawning anything.
 
