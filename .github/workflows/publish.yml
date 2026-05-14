@@ -57,7 +57,7 @@ jobs:
             const json = JSON.parse(readFileSync(path, 'utf8'));
             for (const field of ['dependencies', 'devDependencies', 'peerDependencies']) {
               for (const name of Object.keys(json[field] ?? {})) {
-                if (json[field][name] === '*' && name.startsWith('@typenode/')) {
+                if (json[field][name] === '*' && (name.startsWith('@typenode/') || name === 'create-typenode')) {
                   json[field][name] = version;
                 }
               }
@@ -94,6 +94,12 @@ jobs:
       - name: Publish @typenode/vitest
         run: npm publish --access public --provenance
         working-directory: packages/vitest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish create-typenode
+        run: npm publish --access public --provenance
+        working-directory: packages/create-typenode
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

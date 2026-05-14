@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { runGenerate } from "./commands/generate.ts";
 import { runRun } from "./commands/run.ts";
+import { runInit } from "./commands/init.ts";
 import { findRenode } from "./renode.ts";
 
 const LOGO = `
@@ -108,6 +109,10 @@ async function main(): Promise<void> {
     case "--help":
       usage();
       return;
+    case "init": {
+      await runInit(positional[0]);
+      return;
+    }
     case "version":
     case "--version":
     case "-v":
@@ -120,6 +125,7 @@ async function main(): Promise<void> {
 function usage(msg?: string): never {
   if (msg) console.error(`typenode: ${msg}`);
   console.error(`Usage:
+  typenode init     [project-name]                Scaffold a new project
   typenode generate <machine.ts> [--out <dir>]   Emit .repl + .resc files
   typenode run      <machine.ts> [--out <dir>] [--headless]
                                                   Generate and launch Renode

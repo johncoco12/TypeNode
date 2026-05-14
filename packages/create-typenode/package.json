@@ -1,0 +1,19 @@
+{
+  "name": "create-typenode",
+  "version": "1.0.1",
+  "type": "module",
+  "description": "Scaffold a new TypeNode project",
+  "main": "./src/scaffold.ts",
+  "exports": {
+    ".": "./src/scaffold.ts"
+  },
+  "bin": {
+    "create-typenode": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "tsx": "^4.19.0"
+  }
+}

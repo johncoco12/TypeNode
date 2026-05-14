@@ -13,6 +13,7 @@
     "@typenode/core": "*",
     "@typenode/emit": "*",
     "@typenode/peripherals": "*",
-    "@typenode/runtime": "*"
+    "@typenode/runtime": "*",
+    "create-typenode": "*"
   }
 }
