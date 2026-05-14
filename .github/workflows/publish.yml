@@ -1,0 +1,91 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # required for npm provenance
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Extract version from tag
+        id: version
+        run: echo "value=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Bump all workspace versions
+        run: npm version ${{ steps.version.outputs.value }} --workspaces --no-git-tag-version
+
+      - name: Resolve internal workspace dependencies
+        # Replace "*" with the release version for all @typenode/* deps
+        run: |
+          VERSION=${{ steps.version.outputs.value }}
+          node --input-type=module <<EOF
+          import { readFileSync, writeFileSync, readdirSync } from 'fs';
+          const version = '$VERSION';
+          for (const pkg of readdirSync('packages')) {
+            const path = \`packages/\${pkg}/package.json\`;
+            const json = JSON.parse(readFileSync(path, 'utf8'));
+            for (const field of ['dependencies', 'devDependencies', 'peerDependencies']) {
+              for (const name of Object.keys(json[field] ?? {})) {
+                if (json[field][name] === '*' && name.startsWith('@typenode/')) {
+                  json[field][name] = version;
+                }
+              }
+            }
+            writeFileSync(path, JSON.stringify(json, null, 2) + '\n');
+          }
+          EOF
+
+      # Publish in dependency order: core first, cli last
+      - name: Publish @typenode/core
+        run: npm publish --access public --provenance
+        working-directory: packages/core
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @typenode/emit
+        run: npm publish --access public --provenance
+        working-directory: packages/emit
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @typenode/peripherals
+        run: npm publish --access public --provenance
+        working-directory: packages/peripherals
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @typenode/runtime
+        run: npm publish --access public --provenance
+        working-directory: packages/runtime
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @typenode/vitest
+        run: npm publish --access public --provenance
+        working-directory: packages/vitest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @typenode/cli
+        run: npm publish --access public --provenance
+        working-directory: packages/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
